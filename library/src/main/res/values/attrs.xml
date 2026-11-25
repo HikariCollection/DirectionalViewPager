@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="DirectionalViewPager">
         <attr name="android:orientation" />
+        <attr name="userInputEnabled" format="boolean" />
     </declare-styleable>
 </resources>

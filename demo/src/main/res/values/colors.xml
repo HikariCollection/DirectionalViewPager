@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="md_theme_primary">#0F6B6E</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#B5EBED</color>
+    <color name="md_theme_onPrimaryContainer">#002022</color>
+    <color name="md_theme_secondary">#4A6364</color>
+    <color name="md_theme_secondaryContainer">#CCE8E9</color>
+    <color name="md_theme_onSecondaryContainer">#051F20</color>
+    <color name="md_theme_surfaceContainer">#EBF1F1</color>
+    <color name="md_theme_outlineVariant">#BEC8C9</color>
 </resources>

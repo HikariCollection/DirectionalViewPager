@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">DirectionalViewPager</string>
+    <string name="chip_vertical">Vertical</string>
+    <string name="chip_horizontal">Horizontal</string>
+    <string name="chip_rtl">RTL</string>
+    <string name="chip_lock">Lock Input</string>
+    <string name="chip_margin">Margin</string>
+    <string name="chip_transformer_fmt">FX: %1$s</string>
+    <string name="action_prev">Prev</string>
+    <string name="action_fake_drag">Fake Drag</string>
+    <string name="action_next">Next</string>
+    <string name="action_jump_first">Jump to Page 0</string>
+    <string name="status_fmt">Page %1$d / %2$d - %3$s - %4$d%%</string>
+    <string name="subtitle_fmt">%1$s - %2$s - %3$s</string>
 </resources>
