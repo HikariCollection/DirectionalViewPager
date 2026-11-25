@@ -1,12 +1,39 @@
-[![CI](https://github.com/HikariCollection/DirectionalViewPager/actions/workflows/ci.yml/badge.svg)](https://github.com/HikariCollection/DirectionalViewPager/actions/workflows/ci.yml)
-
 # DirectionalViewPager
 
-Android `ViewPager` implementation in Kotlin supporting both horizontal and vertical swiping, including runtime orientation switching while remaining compatible with `PagerAdapter`, `ViewPager.OnPageChangeListener`, and `ViewPager.PageTransformer`.
+[![Release](https://img.shields.io/github/v/release/HikariCollection/DirectionalViewPager?style=flat-square&color=0F6B6E)](https://github.com/HikariCollection/DirectionalViewPager/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/HikariCollection/DirectionalViewPager/ci.yml?branch=main&style=flat-square&color=0F6B6E)](https://github.com/HikariCollection/DirectionalViewPager/actions/workflows/ci.yml)
+[![minSdk](https://img.shields.io/badge/minSdk-23-4A6364?style=flat-square)](library/build.gradle.kts)
+[![License](https://img.shields.io/github/license/HikariCollection/DirectionalViewPager?style=flat-square&color=4A6364)](LICENSE)
 
-## Installation
+A Kotlin Android `ViewGroup` pager supporting both horizontal and vertical swiping with runtime orientation switching for `PagerAdapter` consumers.
+Preserves full compatibility with `ViewPager.OnPageChangeListener`, `ViewPager.PageTransformer`, and `ViewPager.DecorView` while adding `NestedScrollingChild3`/`NestedScrollingParent3`, horizontal RTL mirroring, and `isUserInputEnabled`.
 
-Add the GitHub Packages repository to your `settings.gradle.kts`:
+---
+
+## Why DirectionalViewPager?
+
+- **Drop-In `ViewPager` Compatibility**: Lives in `androidx.viewpager.widget` and reuses `PagerAdapter`, `ViewPager.OnPageChangeListener`, `ViewPager.PageTransformer`, and `@ViewPager.DecorView` without adapter rewrites.
+- **Runtime Orientation Switching**: Flip between horizontal and vertical paging mid-session via `isHorizontal` while preserving the active page and recalculating offsets.
+- **Full Nested Scrolling**: Implements both `NestedScrollingChild3` and `NestedScrollingParent3` to cooperate with `CoordinatorLayout`, `SwipeRefreshLayout`, `NestedScrollView`, and `RecyclerView`.
+- **RTL & Input Lock**: Mirrors horizontal layout, drag, fling, `EdgeEffect`, DPAD keys, and accessibility actions in `LAYOUT_DIRECTION_RTL`, and supports disabling user gestures via `isUserInputEnabled`.
+
+| Capability | `DirectionalViewPager` | AndroidX `ViewPager` | AndroidX `ViewPager2` |
+| :--- | :--- | :--- | :--- |
+| **Paging Axes** | Horizontal & Vertical | Horizontal only | Horizontal & Vertical |
+| **Runtime Axis Switch** | `pager.isHorizontal = ...` | Not supported | `pager.orientation = ...` |
+| **Adapter API** | `PagerAdapter` | `PagerAdapter` | `RecyclerView.Adapter` |
+| **Nested Scrolling** | `Child3` & `Parent3` | None | `RecyclerView` internal |
+| **Horizontal RTL** | Supported | Not supported | Supported |
+| **Input Lock** | `isUserInputEnabled` | Subclass override | `isUserInputEnabled` |
+| **Minimum SDK** | API 23 | API 14 | API 14 |
+
+---
+
+## Quickstart
+
+### 1. Installation
+
+Add the GitHub Packages repository to `settings.gradle.kts` and depend on `directional-viewpager`:
 
 ```kotlin
 dependencyResolutionManagement {
@@ -26,42 +53,51 @@ dependencyResolutionManagement {
 }
 ```
 
-Then add the dependency (minSdk 23):
-
 ```kotlin
 dependencies {
     implementation("androidx.viewpager.widget:directional-viewpager:2.0.0")
 }
 ```
 
-## Usage
+> [!NOTE]
+> GitHub Packages requires a GitHub token (`read:packages` scope). See [Getting started](docs/getting-started.md) for credential setup options.
 
-From XML, optionally specifying `android:orientation`:
+### 2. Minimal Usage
 
 ```xml
 <androidx.viewpager.widget.DirectionalViewPager
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" />
+    android:orientation="vertical"
+    app:userInputEnabled="true" />
 ```
-
-From Kotlin:
 
 ```kotlin
-val pager = DirectionalViewPager(context, isHorizontal = false)
+val pager = findViewById<DirectionalViewPager>(R.id.pager)
+pager.adapter = myPagerAdapter
+pager.isHorizontal = false
 ```
 
-Switch direction at runtime:
+### 3. Run the Demo App
 
-```kotlin
-pager.isHorizontal = !pager.isHorizontal
+```bash
+./gradlew :demo:installDebug
 ```
 
-## Changelog (2.0.0)
+---
 
-- Migrated library and demo modules to Kotlin with AGP 9.5.0, Gradle 9.6.0, and SDK 37.
-- Fixed `canScrollVertically` reading horizontal scroll/width instead of vertical scroll/height.
-- Fixed vertical `EdgeEffect` canvas transforms and padding offsets in `draw`.
-- Fixed vertical `sizeFactor` measurement in `onMeasure`/`onLayout` and vertical decor gravity mask in `onPageScrolled`.
-- Fixed accessibility scroll actions and `endFakeDrag` offset calculation in vertical mode.
-- Added JUnit 6 + MockK unit tests and GitHub Actions CI / GitHub Packages publishing workflows.
+## Documentation
+
+- [Getting started](docs/getting-started.md) — Installation, credential configuration, layout setup, and demo app launch
+- [Nested scrolling, RTL, and input control](docs/nested-scrolling-and-rtl.md) — `NestedScrollingChild3`/`Parent3`, `LAYOUT_DIRECTION_RTL`, `isUserInputEnabled`, and fake drags
+- [Architecture and internals](docs/architecture.md) — Package placement, axis abstraction, RTL coordinate strategy, and scroll delegation flows
+- [API, XML, and build reference](docs/reference.md) — Complete XML attributes, Kotlin/Java API members, Gradle coordinates, and CI tasks
+
+---
+
+## License
+
+This project is licensed under the [Apache-2.0 License](LICENSE).

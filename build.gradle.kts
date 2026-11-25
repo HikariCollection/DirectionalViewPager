@@ -1,3 +1,5 @@
+import com.diffplug.spotless.LineEnding
+
 plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.application) apply false
@@ -5,6 +7,8 @@ plugins {
 }
 
 spotless {
+    lineEndings = LineEnding.UNIX
+
     kotlin {
         target("**/*.kt")
         targetExclude("**/build/**")
